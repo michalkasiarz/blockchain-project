@@ -5,7 +5,7 @@ class BlockchainController:
 
     def add_block(self, data):
         self.model.add_block(data)
-        self.view.display()
+        self.view.display(self.model)
 
     def validate_chain(self):
         if self.model.is_valid():

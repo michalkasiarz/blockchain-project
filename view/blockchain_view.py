@@ -1,9 +1,6 @@
 class BlockchainView:
-    def __init__(self, model):
-        self.model = model
-
-    def display(self):
+    def display(self, blockchain):
         print("Blockchain:")
-        for block in self.model.chain:
+        for block in blockchain.chain:
             print(block)
-        print("")
+            print()
