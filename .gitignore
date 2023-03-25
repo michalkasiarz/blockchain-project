@@ -17,3 +17,6 @@ build/
 # ignore __init__.py
 __init__.py
 
+# ignore logs
+blockchain.log
+

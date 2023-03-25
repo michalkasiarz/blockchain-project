@@ -1,11 +1,14 @@
 from model.block import Block
 from model.blockchain import Blockchain
+from model.logger import Logger
 from view.blockchain_view import BlockchainView
 from controller.blockchain_controller import BlockchainController
 
 if __name__ == '__main__':
     print("Starting Blockchain...")
     model = Blockchain.get_instance(block_class=Block)
+    logger = Logger()
+    model.register_observer(logger)
     view = BlockchainView(model)
     controller = BlockchainController(model, view)
     controller.add_block("Charlie's block, my dog is nice")
