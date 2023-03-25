@@ -1,4 +1,6 @@
 from datetime import datetime
+from model.transaction_pool import TransactionPool
+
 
 class Observable:
     def __init__(self):
@@ -31,15 +33,53 @@ class Blockchain(Observable):
         super().__init__()
         self.block_class = block_class
         self.chain = [self.block_class.create_genesis_block()]
+        self.transaction_pool = TransactionPool()
 
-    def add_block(self, data):
+    def add_block(self):
         index = len(self.chain)
-        previous_hash = self.chain[index-1].hash
-        block = self.block_class(index, datetime.now(), data, previous_hash)
+        previous_hash = self.chain[index - 1].hash
+        transactions = self.transaction_pool.get_transactions()
+        block = self.block_class(index, datetime.now(), transactions, previous_hash)
+        sender_balances = self.get_sender_balances()
+        if not self.validate_block_transactions(block, sender_balances):
+            return False
         proof = self.proof_of_work(block)
         block.set_hash(proof)
         self.chain.append(block)
         self.notify_observers('block_added', block)
+        self.transaction_pool.clear_transactions()
+
+    def add_transaction_to_block(self, block, transaction_pool, sender_balances = None):
+        valid_transactions = []
+        for transaction in transaction_pool.get_transactions():
+            if transaction.validate(sender_balances[transaction.sender], transaction.sender):
+                valid_transactions.append(transaction)
+
+        block.data = valid_transactions
+
+    def get_sender_balances(self):
+        sender_balances = {}
+        for block in self.chain:
+            for transaction in block.transactions:
+                sender = transaction.sender
+                recipient = transaction.recipient
+                amount = transaction.amount
+
+                if sender not in sender_balances:
+                    sender_balances[sender] = 0
+                if recipient not in sender_balances:
+                    sender_balances[recipient] = 0
+
+                sender_balances[sender] -= amount
+                sender_balances[recipient] += amount
+
+        return sender_balances
+
+    def validate_block_transactions(self, block, sender_balances):
+        for transaction in block.transactions:
+            if not transaction.validate(sender_balances[transaction.sender], transaction.sender):
+                return False
+        return True
 
     def proof_of_work(self, block, difficulty=2):
         proof = '0' * difficulty
