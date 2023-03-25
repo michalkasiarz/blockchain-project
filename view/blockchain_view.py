@@ -2,11 +2,19 @@ class BlockchainView:
     def __init__(self, model):
         self.model = model
 
+    def update(self, event, data=None):
+        if event == "block_added":
+            self.display_block(data)
+
+    def display_block(self, block):
+        print(f"Block {block.index}: {block}")
+
     def display_blockchain(self):
-        print("Blockchain:")
+        print("Displaying the entire blockchain:")
         for block in self.model.chain:
-            print(f"Index: {block.index}")
-            print(f"Date: {block.timestamp}")
-            print(f"Data: {block.data}")
-            print(f"Hash: {block.hash}")
-            print("-" * 20)
+            print(f"Block {block.index}:")
+            print(f"    Timestamp: {block.timestamp}")
+            print(f"    Data: {block.data}")
+            print(f"    Previous Hash: {block.previous_hash}")
+            print(f"    Hash: {block.hash}")
+            print(f"    Nonce: {block.nonce}")
