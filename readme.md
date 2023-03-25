@@ -7,7 +7,21 @@
   </tr>
   <tr>
     <td>
-      <p>This is a simple implementation of a blockchain in Python. The project consists of a model that defines the basic building blocks of a blockchain, a view that displays the blockchain, and a controller that adds blocks to the blockchain.</p>
+      <p>This is a simple implementation of a blockchain in Python, based on the Model-View-Controller (MVC) architectural pattern. This project can be used for learning the basics of blockchain technology and for hobbyist purposes.</p>
+    </td>
+  </tr>
+  <tr>
+    <td><h2>Features</h2></td>
+  </tr>
+  <tr>
+    <td>
+      <p>The project implements the following features:</p>
+      <ul>
+        <li>Creating and adding blocks to the blockchain</li>
+        <li>Proof of Work algorithm for block mining</li>
+        <li>Singleton pattern for the blockchain class</li>
+        <li>Observer pattern for logging, statistics, and view updates</li>
+      </ul>
     </td>
   </tr>
   <tr>
