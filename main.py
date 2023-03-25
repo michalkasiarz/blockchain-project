@@ -5,7 +5,7 @@ from controller.blockchain_controller import BlockchainController
 
 if __name__ == '__main__':
     print("Starting Blockchain...")
-    model = Blockchain(Block)
+    model = Blockchain.get_instance(block_class=Block)
     view = BlockchainView(model)
     controller = BlockchainController(model, view)
     controller.add_block("Charlie's block, my dog is nice")
