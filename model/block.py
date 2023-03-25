@@ -10,9 +10,11 @@ class Block:
         self.previous_hash = previous_hash
         self.hash = ""
         self.nonce = 0
+        self.block_id = None
 
     def set_hash(self, hash):
         self.hash = hash
+        self.block_id = f"{self.index}-{self.hash}"
 
     def calculate_hash(self):
         # SHA256 hash
