@@ -1,5 +1,6 @@
 from datetime import datetime
 from model.transaction_pool import TransactionPool
+from model.accounts import Accounts
 
 
 class Observable:
@@ -15,6 +16,7 @@ class Observable:
     def notify_observers(self, event, data=None):
         for observer in self._observers:
             observer.update(event, data)
+
 
 class Blockchain(Observable):
     _instance = None
@@ -34,6 +36,7 @@ class Blockchain(Observable):
         self.block_class = block_class
         self.chain = [self.block_class.create_genesis_block()]
         self.transaction_pool = TransactionPool()
+        self.accounts = Accounts()
 
     def add_block(self):
         index = len(self.chain)
@@ -49,7 +52,8 @@ class Blockchain(Observable):
         self.notify_observers('block_added', block)
         self.transaction_pool.clear_transactions()
 
-    def add_transaction_to_block(self, block, transaction_pool, sender_balances = None):
+    def add_transaction_to_block(self, block, transaction_pool):
+        sender_balances = self.get_sender_balances()
         valid_transactions = []
         for transaction in transaction_pool.get_transactions():
             if transaction.validate(sender_balances[transaction.sender], transaction.sender):
@@ -58,17 +62,12 @@ class Blockchain(Observable):
         block.data = valid_transactions
 
     def get_sender_balances(self):
-        sender_balances = {}
+        sender_balances = self.accounts.accounts.copy()
         for block in self.chain:
             for transaction in block.transactions:
                 sender = transaction.sender
                 recipient = transaction.recipient
                 amount = transaction.amount
-
-                if sender not in sender_balances:
-                    sender_balances[sender] = 0
-                if recipient not in sender_balances:
-                    sender_balances[recipient] = 0
 
                 sender_balances[sender] -= amount
                 sender_balances[recipient] += amount

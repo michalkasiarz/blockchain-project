@@ -1,5 +1,5 @@
-# model/statistics.py
 import datetime
+
 
 class Statistics:
     def __init__(self):
@@ -21,6 +21,6 @@ class Statistics:
     def display_statistics(self):
         if self.blocks_count > 1:
             average_time = self.total_time / (self.blocks_count - 1)
-            print(f"Average time between blocks: {average_time}")
+            print(f"Average time between blocks: {average_time.seconds}")
         else:
             print("Not enough blocks to calculate average time.")
