@@ -5,6 +5,9 @@
 # pycache
 __pycache__/
 
+# pytest_cache
+.pytest_cache
+
 # Python-generated files
 *.pyc
 *.pyo
