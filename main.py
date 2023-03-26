@@ -1,4 +1,3 @@
-from model.accounts import Accounts
 from model.block import Block
 from model.blockchain import Blockchain
 from model.logger import Logger
@@ -19,13 +18,15 @@ if __name__ == '__main__':
     controller = BlockchainController(model, view)
 
     transaction1 = Transaction('Alice', 'Bob', 50)
-    transaction2 = Transaction('Charlie', 'Alice', 10)
+    transaction2 = Transaction('Charlie', 'Alice', 520)
     transaction3 = Transaction('Bob', 'Charlie', 30)
 
     controller.add_transaction_to_pool(transaction1)
     controller.add_transaction_to_pool(transaction2)
     controller.add_transaction_to_pool(transaction3)
 
+    controller.add_block()
+    controller.add_block()
     controller.add_block()
     view.display_blockchain()
     statistics.display_statistics()
