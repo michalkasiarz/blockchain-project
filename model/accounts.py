@@ -10,3 +10,8 @@ class Accounts:
         if account not in self.accounts:
             raise ValueError(f"Account {account} does not exist.")
         return self.accounts[account]
+
+    def add_account(self, account, balance):
+        if account in self.accounts:
+            raise ValueError(f"Account {account} already exists.")
+        self.accounts[account] = balance
