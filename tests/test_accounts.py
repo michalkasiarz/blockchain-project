@@ -14,3 +14,17 @@ class TestAccounts(unittest.TestCase):
     def test_get_balance_invalid_account(self):
         with self.assertRaises(ValueError):
             self.accounts.get_balance("Eve")
+
+    def test_add_account(self):
+        accounts = Accounts()
+        account_name = "David"
+        balance = 300
+        accounts.add_account(account_name, balance)
+        self.assertEqual(accounts.get_balance(account_name), balance)
+
+    def test_add_existing_account(self):
+        accounts = Accounts()
+        account_name = "Alice"
+        balance = 300
+        with self.assertRaises(ValueError):
+            accounts.add_account(account_name, balance)
