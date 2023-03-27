@@ -32,6 +32,9 @@ class BlockchainController:
         # Validate the transaction using the sender's current balance
         if transaction.validate(sender_balances[transaction.sender], transaction.sender):
             self.model.transaction_pool.add_transaction(transaction)
+            print(f"Validation result: Positive. Transaction of {sender_balances[transaction.sender]} added to transaction pool.")
+        else:
+            print(f"Validation result: Negative. Transaction of {sender_balances[transaction.sender]} not added to transaction pool.")
 
 
 
